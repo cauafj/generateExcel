@@ -27,8 +27,6 @@ function App() {
           link: "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=Ol%C3%A1.%20Boa%20tarde"
         }
     })
-    console.log(data)
-    //console.log(typeof(data))
     return data
 }
 

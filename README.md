@@ -1,1 +1,1 @@
-# Takes some data and makes it become a spreadsheet.
+# Takes some data and makes it become some cards at the page.

@@ -18,8 +18,8 @@ export default function Cards(props) {
                                     <h5 className="card-title">{e.title}</h5>
                                     <p className="card-text">Rating: {e.rating}</p>
                                     <p className="card-text">reviewCount: {e.reviewCount}</p>
-                                    <a href={e.website} className="card-link">{e.website}</a><br/>
-                                    <a href={e.link} className="btn btn-info">Enviar mensagem</a>
+                                    <a href={e.website} target="blank" className="card-link">{e.website}</a><br/>
+                                    <a href={e.link} target="blank" className="btn btn-info">Enviar mensagem</a>
                                   </div>
                                 </div>
                             )

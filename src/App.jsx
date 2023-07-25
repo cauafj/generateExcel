@@ -9,7 +9,7 @@ function App() {
 
   const generateDoc = async () => {
     //takes data from url inserted by the user
-    await axios.create({ baseURL: url }).get("/").then(res => {
+    await axios.get(url).then(res => {
       data = res.data
     })
 

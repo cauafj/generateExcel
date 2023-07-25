@@ -1,13 +1,15 @@
 import { useState } from "react";
+import Cards from "./pages/components/cards"
 import axios from "axios"
-import * as FileSaver from "file-saver"
-import XLSX from "sheetjs-style"
 
 function App() {
-  let data = []
-  let url
+  const [generated, setGenerated] = useState(0)
+  const [url, setUrl] = useState("")
+  const [data, setData] = useState([])
 
-  const generateDoc = async () => {
+  const takeData = async () => {
+    let data = []
+
     //takes data from url inserted by the user
     await axios.get(url).then(res => {
       data = res.data
@@ -15,40 +17,32 @@ function App() {
 
     //formats numbers into WhatsApp Links
     data = data.map(e => {
-      const phoneNumber = e.phoneNumber.replaceAll(" ", "").replace("+", "").replace("-", "")
-
-      return {
-        title: e.title,
-        rating: e.rating,
-        reviewCount: e.reviewCount,
-        website: e.website,
-        link: "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=Ol%C3%A1.%20Boa%20tarde"
-      }
+        const phoneNumber = e.phoneNumber.replaceAll(" ", "").replace("+", "").replace("-", "")
+    
+        return {
+          title: e.title,
+          rating: e.rating,
+          reviewCount: e.reviewCount,
+          website: e.website,
+          link: "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=Ol%C3%A1.%20Boa%20tarde"
+        }
     })
     console.log(data)
-
-    //defines filetype and extension
-    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"
-    const fileExtension = ".xlsx"
-
-    //generates the file
-    const ws = XLSX.utils.json_to_sheet(data)
-    const wb = { Sheets: {"data": ws}, SheetNames: ["data"]}
-    const excelBuffer = XLSX.write(wb, {bookType: "xlsx", type: "array" })
-    const sData = new Blob([excelBuffer], { type: fileType })
-    FileSaver.saveAs(sData, "tohTeuDoc" + fileExtension)
-  }
+    //console.log(typeof(data))
+    return data
+}
 
   return (
     <div className="container text-center">
       <p className="fs-1 m-4 fw-bold">Coloca ai tua URL com json, pae</p>
       <div className="input-group mb-3">
         <span className="input-group-text" id="basic-addon1">URL dos guri</span>
-        <input onChange={(e) => {url = e.target.value; console.log(url)}} type="text" className="form-control"/>
+        <input onChange={(e) => {setUrl(e.target.value)}} type="text" className="form-control"/>
       </div>
-      <button className="btn btn-lg btn-info mt-3" onClick={() => generateDoc()}>Gerar planilha</button>
+      <button className="btn btn-lg btn-info mt-3" onClick={() => {setGenerated(1); takeData().then(res => setData(res))}}>Gerar cards</button>
+      <Cards url={url} generated={generated} data={data}></Cards> 
     </div>
-  );
+  )
 }
 
 export default App;

@@ -1,1 +1,1 @@
-# Take some data and make it become a spreadsheet.
+# Takes some data and makes it become a spreadsheet.

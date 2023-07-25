@@ -38,7 +38,7 @@ function App() {
         <input onChange={(e) => {setUrl(e.target.value)}} type="text" className="form-control"/>
       </div>
       <button className="btn btn-lg btn-info mt-3" onClick={() => {setGenerated(1); takeData().then(res => setData(res))}}>Gerar cards</button>
-      <Cards url={url} generated={generated} data={data}></Cards> 
+      <Cards generated={generated} data={data}></Cards> 
     </div>
   )
 }

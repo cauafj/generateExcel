@@ -1,4 +1,3 @@
-
 export default function Cards(props) {
     const data = props.data
     const generated = props.generated

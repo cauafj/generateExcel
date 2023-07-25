@@ -4,15 +4,28 @@ import * as FileSaver from "file-saver"
 import XLSX from "sheetjs-style"
 
 function App() {
-  const [data, setData] = useState([])
-  let url = ""
+  let data = []
+  let url
 
   const generateDoc = async () => {
     //takes data from url inserted by the user
-    axios.create({ baseURL: url }).get("/").then(res => {
-      setData(res.data)
-      console.log(typeof(data))
+    await axios.create({ baseURL: url }).get("/").then(res => {
+      data = res.data
     })
+
+    //formats numbers into WhatsApp Links
+    data = data.map(e => {
+      const phoneNumber = e.phoneNumber.replaceAll(" ", "").replace("+", "").replace("-", "")
+
+      return {
+        title: e.title,
+        rating: e.rating,
+        reviewCount: e.reviewCount,
+        website: e.website,
+        link: "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=Ol%C3%A1.%20Boa%20tarde"
+      }
+    })
+    console.log(data)
 
     //defines filetype and extension
     const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"
